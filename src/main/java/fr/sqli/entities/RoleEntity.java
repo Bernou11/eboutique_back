@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,11 +15,14 @@ import java.util.Objects;
 public class RoleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "role_id", nullable = false)
     private int id;
     @Type(type = "json")
     @Column(name = "type_role", nullable = true)
     private String typeRole;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<UtilisateurEntity> utilisateurs;
 
     @Override
     public boolean equals(Object o) {

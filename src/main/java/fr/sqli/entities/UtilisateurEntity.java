@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -14,7 +15,7 @@ import java.util.Objects;
 public class UtilisateurEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "utilisateur_id", nullable = false)
     private int id;
     @Basic
     @Column(name = "email", nullable = false, length = 30)
@@ -31,15 +32,15 @@ public class UtilisateurEntity {
     @Basic
     @Column(name = "pseudo", nullable = false, length = -1)
     private String pseudo;
-    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date", nullable = false)
-    private Date creationDate;
+    private LocalDateTime creationDate;
     @Basic
     @Column(name = "status", nullable = false)
     private Byte status;
-    @Basic
-    @Column(name = "role_id", nullable = false)
-    private int roleId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id")
+    private RoleEntity role;
 
     @Override
     public boolean equals(Object o) {

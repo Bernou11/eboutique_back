@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
 
+import java.util.List;
+
 @Entity
 @Table(name = "commande", schema = "eboutique")
 @Getter
@@ -13,7 +15,7 @@ import org.hibernate.annotations.Type;
 public class CommandeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "commande_id", nullable = false)
     private int id;
 
     @Basic
@@ -35,6 +37,9 @@ public class CommandeEntity {
     @Type(type = "json")
     @Column(name = "data", nullable = false)
     private String data;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<ArticleEntity> articles;
 
     @Override
     public boolean equals(Object o) {

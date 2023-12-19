@@ -3,7 +3,9 @@ package fr.sqli.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,11 +15,14 @@ import java.util.Objects;
 public class TagArticleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "tag_article_id", nullable = false)
     private int id;
-    @Basic
+    @Type(type = "json")
     @Column(name = "collection", nullable = false)
-    private Object collection;
+    private String collection;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<ArticleEntity> articles;
 
     @Override
     public boolean equals(Object o) {
