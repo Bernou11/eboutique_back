@@ -1,46 +1,57 @@
 package fr.sqli.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.Type;
-
-import java.util.List;
 
 @Entity
 @Table(name = "article", schema = "eboutique")
 @Getter
 @Setter
+@AllArgsConstructor
 public class ArticleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "article_id", nullable = false)
     private int id;
-    @Type(type = "json")
-    @Column(name = "type_vetement", nullable = true)
-    private String typeVetement;
-    @Basic
+
     @Column(name = "description", nullable = false, length = -1)
     private String description;
-    @Basic
+
+    @Lob
     @Column(name = "image", nullable = false, length = -1)
     private String image;
-    @Basic
-    @Column(name = "genre", nullable = true)
+
+    @Column(name = "genre", nullable = false)
     private Byte genre;
-    @Basic
-    @Column(name = "createur", nullable = true, length = -1)
+
+    @Column(name = "createur", nullable = false, length = -1)
     private String createur;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tag_article_id")
-    private TagArticleEntity tagArticleId;
+    @Column(name = "prixHT", nullable = false)
+    private Double prixHT;
+
+    @Column(name = "prixTTC", nullable = false)
+    private Double prixTTC;
+
+    @Column(name = "collection", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private String collection;
+
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "commande_id")
     private CommandeEntity commandeId;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "vetement_id")
+    private VetementEntity vetements;
+
+    public ArticleEntity() {
+
+    }
 
     @Override
     public boolean equals(Object o) {

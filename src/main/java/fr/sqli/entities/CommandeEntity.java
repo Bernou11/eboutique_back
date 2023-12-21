@@ -1,10 +1,10 @@
 package fr.sqli.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.Type;
 
 import java.util.List;
 
@@ -12,34 +12,28 @@ import java.util.List;
 @Table(name = "commande", schema = "eboutique")
 @Getter
 @Setter
+@AllArgsConstructor
 public class CommandeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "commande_id", nullable = false)
     private int id;
 
-    @Basic
-    @Column(name = "id_client", nullable = false)
-    private int idClient;
-
-    @Basic
-    @Column(name = "prixHT", nullable = true, precision = 0)
+    @Column(name = "prixHT", nullable = false, precision = 0)
     private Double prixHt;
 
-    @Basic
-    @Column(name = "prixTTC", nullable = true, precision = 0)
+    @Column(name = "prixTTC", nullable = false, precision = 0)
     private Double prixTtc;
 
-    @Basic
-    @Column(name = "status", nullable = true)
+    @Column(name = "status", nullable = false)
     private Byte status;
-
-    @Type(type = "json")
-    @Column(name = "data", nullable = false)
-    private String data;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<ArticleEntity> articles;
+
+    public CommandeEntity() {
+
+    }
 
     @Override
     public boolean equals(Object o) {
