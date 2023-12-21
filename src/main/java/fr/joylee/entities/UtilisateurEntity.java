@@ -1,6 +1,6 @@
-package fr.sqli.entities;
+package fr.joylee.entities;
 
-import fr.sqli.enums.RoleEnum;
+import fr.joylee.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class UtilisateurEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "utilisateur_id", nullable = false)
-    private int id;
+    private int utilisateur_id;
 
     @Column(name = "email", nullable = false, length = 30)
     private String email;
@@ -54,11 +54,11 @@ public class UtilisateurEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UtilisateurEntity that)) return false;
-        return getId() == that.getId() && Objects.equals(getEmail(), that.getEmail()) && Objects.equals(getPassword(), that.getPassword()) && Objects.equals(getPrenom(), that.getPrenom()) && Objects.equals(getNom(), that.getNom()) && Objects.equals(getPseudo(), that.getPseudo()) && Objects.equals(getCreationDate(), that.getCreationDate()) && Objects.equals(getStatus(), that.getStatus()) && Objects.equals(getRole(), that.getRole());
+        return getUtilisateur_id() == that.getUtilisateur_id() && Objects.equals(getEmail(), that.getEmail()) && Objects.equals(getPassword(), that.getPassword()) && Objects.equals(getPrenom(), that.getPrenom()) && Objects.equals(getNom(), that.getNom()) && Objects.equals(getPseudo(), that.getPseudo()) && Objects.equals(getCreationDate(), that.getCreationDate()) && Objects.equals(getStatus(), that.getStatus()) && Objects.equals(getRole(), that.getRole());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getEmail(), getPassword(), getPrenom(), getNom(), getPseudo(), getCreationDate(), getStatus(), getRole());
+        return Objects.hash(getUtilisateur_id(), getEmail(), getPassword(), getPrenom(), getNom(), getPseudo(), getCreationDate(), getStatus(), getRole());
     }
 }

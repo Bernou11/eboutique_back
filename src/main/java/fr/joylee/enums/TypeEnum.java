@@ -1,4 +1,4 @@
-package fr.sqli.enums;
+package fr.joylee.enums;
 
 public enum TypeEnum {
     vêtement,

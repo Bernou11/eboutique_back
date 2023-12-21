@@ -1,4 +1,4 @@
-package fr.sqli.entities;
+package fr.joylee.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ public class ArticleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "article_id", nullable = false)
-    private int id;
+    private int article_id;
 
     @Column(name = "description", nullable = false, length = -1)
     private String description;

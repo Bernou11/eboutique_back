@@ -1,7 +1,7 @@
-package fr.sqli.entities;
+package fr.joylee.entities;
 
-import fr.sqli.enums.PlacementEnum;
-import fr.sqli.enums.TypeEnum;
+import fr.joylee.enums.PlacementEnum;
+import fr.joylee.enums.TypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public class VetementEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "vetement_id", nullable = false)
-    private int id;
+    private int vetement_id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "placement", nullable = false)
@@ -46,11 +46,11 @@ public class VetementEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VetementEntity that)) return false;
-        return getId() == that.getId() && getPlacement() == that.getPlacement() && getType() == that.getType() && Objects.equals(getSous_type(), that.getSous_type()) && Objects.equals(getGenre(), that.getGenre()) && Objects.equals(getArticles(), that.getArticles());
+        return getVetement_id() == that.getVetement_id() && getPlacement() == that.getPlacement() && getType() == that.getType() && Objects.equals(getSous_type(), that.getSous_type()) && Objects.equals(getGenre(), that.getGenre()) && Objects.equals(getArticles(), that.getArticles());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getPlacement(), getType(), getSous_type(), getGenre(), getArticles());
+        return Objects.hash(getVetement_id(), getPlacement(), getType(), getSous_type(), getGenre(), getArticles());
     }
 }

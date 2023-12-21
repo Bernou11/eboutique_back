@@ -1,4 +1,4 @@
-package fr.sqli.dto;
+package fr.joylee.dto;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
