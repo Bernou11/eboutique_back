@@ -1,9 +1,9 @@
-package fr.sqli.eboutique;
+package fr.joylee.eboutique;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "fr.joylee")
 public class EboutiqueApplication {
 
 	public static void main(String[] args) {
