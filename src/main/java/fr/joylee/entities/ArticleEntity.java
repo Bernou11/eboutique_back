@@ -1,7 +1,9 @@
 package fr.joylee.entities;
 
+import fr.joylee.enums.CollectionsEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -11,6 +13,7 @@ import org.hibernate.Hibernate;
 @Getter
 @Setter
 @AllArgsConstructor
+@EqualsAndHashCode
 public class ArticleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -38,8 +41,7 @@ public class ArticleEntity {
 
     @Column(name = "collection", nullable = false)
     @Enumerated(EnumType.STRING)
-    private String collection;
-
+    private CollectionsEnum collection;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "commande_id")
@@ -51,18 +53,5 @@ public class ArticleEntity {
 
     public ArticleEntity() {
 
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        ArticleEntity that = (ArticleEntity) o;
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 }

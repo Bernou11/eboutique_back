@@ -1,5 +1,7 @@
 package fr.joylee.dto;
 
+import fr.joylee.enums.RoleEnum;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,4 +22,6 @@ public class UtilisateurDto {
     private String nom;
 
     private String pseudo;
+
+    private RoleEnum role;
 }

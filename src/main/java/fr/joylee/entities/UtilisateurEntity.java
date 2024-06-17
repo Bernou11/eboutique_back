@@ -2,9 +2,7 @@ package fr.joylee.entities;
 
 import fr.joylee.enums.RoleEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -14,6 +12,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @AllArgsConstructor
+@EqualsAndHashCode
 public class UtilisateurEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -48,17 +47,5 @@ public class UtilisateurEntity {
 
     public UtilisateurEntity() {
 
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UtilisateurEntity that)) return false;
-        return getUtilisateur_id() == that.getUtilisateur_id() && Objects.equals(getEmail(), that.getEmail()) && Objects.equals(getPassword(), that.getPassword()) && Objects.equals(getPrenom(), that.getPrenom()) && Objects.equals(getNom(), that.getNom()) && Objects.equals(getPseudo(), that.getPseudo()) && Objects.equals(getCreationDate(), that.getCreationDate()) && Objects.equals(getStatus(), that.getStatus()) && Objects.equals(getRole(), that.getRole());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getUtilisateur_id(), getEmail(), getPassword(), getPrenom(), getNom(), getPseudo(), getCreationDate(), getStatus(), getRole());
     }
 }

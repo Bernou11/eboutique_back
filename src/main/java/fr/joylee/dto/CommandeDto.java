@@ -10,6 +10,8 @@ import lombok.Setter;
 public class CommandeDto {
     private int id;
 
+    private int idClient;
+
     private Double prixHt;
 
     private Double prixTtc;
