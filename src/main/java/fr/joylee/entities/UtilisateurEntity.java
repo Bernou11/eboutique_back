@@ -1,8 +1,12 @@
 package fr.joylee.entities;
 
 import fr.joylee.enums.RoleEnum;
+import fr.joylee.enums.SexeEnum;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -11,8 +15,7 @@ import java.util.Objects;
 @Table(name = "utilisateur", schema = "eboutique")
 @Getter
 @Setter
-@AllArgsConstructor
-@EqualsAndHashCode
+@NoArgsConstructor
 public class UtilisateurEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -45,7 +48,26 @@ public class UtilisateurEntity {
     @Column(name = "role", nullable = false)
     private RoleEnum role;
 
-    public UtilisateurEntity() {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sexe", nullable = false)
+    private SexeEnum sexe;
 
+    @Column(name = "verification_code", nullable = false)
+    private String verificationCode;
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
+        UtilisateurEntity that = (UtilisateurEntity) o;
+        return Objects.equals(getUtilisateur_id(), that.getUtilisateur_id());
+    }
+
+    @Override
+    public final int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
 }
