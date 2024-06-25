@@ -1,18 +1,20 @@
 package fr.joylee.entities;
 
+import fr.joylee.enums.AgeEnum;
 import fr.joylee.enums.PlacementEnum;
+import fr.joylee.enums.SexeEnum;
 import fr.joylee.enums.TypeEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.proxy.HibernateProxy;
+
+import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "vetement", schema = "eboutique")
-@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 public class VetementEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +34,8 @@ public class VetementEntity {
     private String sous_type;
 
     @Column(name = "genre", nullable = true)
-    private Byte genre;
+    private SexeEnum genre;
 
-    public VetementEntity() {
-
-    }
+    @Column(name = "age", nullable = false)
+    private AgeEnum age;
 }
