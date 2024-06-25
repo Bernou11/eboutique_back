@@ -1,10 +1,9 @@
-package fr.joylee.eboutique;
+package fr.joylee;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootApplication(scanBasePackages = "test.java.repositories")
+@SpringBootApplication(scanBasePackages = "fr.joylee.services")
 class EboutiqueApplicationTests {
 
 	@Test

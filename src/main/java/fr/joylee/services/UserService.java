@@ -3,21 +3,14 @@ package fr.joylee.services;
 import fr.joylee.dto.UtilisateurDto;
 import fr.joylee.entities.UtilisateurEntity;
 import fr.joylee.enums.RoleEnum;
-import fr.joylee.enums.SexeEnum;
-import fr.joylee.mappers.UserMapper;
 import fr.joylee.repositories.UserRepository;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -32,13 +25,13 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final JavaMailSender mailSender;
+//    private final JavaMailSender mailSender;
 
     @Autowired
-    public UserService(UserRepository repo, PasswordEncoder passwordEncoder, JavaMailSender mailSender, UserMapper userMapper) {
+    public UserService(UserRepository repo, PasswordEncoder passwordEncoder) {
         this.repo = repo;
         this.passwordEncoder = passwordEncoder;
-        this.mailSender = mailSender;
+//        this.mailSender = mailSender;
     }
 
     /**
@@ -85,27 +78,14 @@ public class UserService {
     /**
      *
      * @param id : id de l'utilisateur à modifier
-     * @param user : Anciennes informations de l'utilisateur
      *
      * @implNote : Modifie les informations d'un utilisateur
      */
     @Transactional
-    public void updateUser(int id, UtilisateurDto user) {
-        Optional<UtilisateurEntity> oldUser = findById(id);
+    public void updateUser(int id) {
+        repo.updateByUtilisateur_id(id);
 
-        UtilisateurEntity oldUserEntity = oldUser.orElseThrow(() ->
-                new RuntimeException("Utilisateur not found with id " + id));;
-        oldUserEntity.setEmail(user.getEmail());
-        oldUserEntity.setNom(user.getNom());
-        oldUserEntity.setPrenom(user.getPrenom());
-        oldUserEntity.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (user.getPseudo() != null) {
-            oldUserEntity.setPseudo(user.getPseudo());
-        }
-
-        repo.save(oldUserEntity);
-
-        log.info("L'utilisateur {} a été modifié avec succès", user.getId());
+        log.info("L'utilisateur {} a été modifié avec succès", id);
     }
 
     /**
@@ -141,42 +121,52 @@ public class UserService {
 
     /**
      *
+     * @param email : email de l'utilisateur recherché
+     * @return : Retourne l'utilisateur avec l'email correspondant
+     *
+     */
+    public Optional<UtilisateurEntity> getByEmail(String email) {
+        return repo.findByEmail(email);
+    }
+
+    /**
+     *
      * @param user : Informaytions de l'utilisateur
      * @implNote : Permet d'envoyer un email pour la vérification du compte
      */
-    private void sendVerificationEmail(UtilisateurEntity user)
-            throws UnsupportedEncodingException, MessagingException {
-        String toAddress = user.getEmail();
-        String fromAddress = "joylee@gmail.com";
-        String senderName = "Joylee";
-        String subject = "Veuiller vérifier votre compte";
-        String sexe;
-        if (user.getSexe() == SexeEnum.F) {
-            sexe = "Madame";
-        } else {
-            sexe = "Monsieur";
-        }
-        String content = "Bonjour, " + sexe + " " + user.getPrenom() + " " + user.getNom() + "<br>"
-                + "Veuiller cliquer sur le lien ci-dessous pour valider et activer votre compte:<br>"
-                + "<h3><a href=\"[[URL]]\" target=\"_self\">Vérifier votre compte</a></h3>"
-                + "Merci, et bienvenue parmis nous!<br>"
-                + "Joylee.";
-
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
-
-        helper.setFrom(fromAddress, senderName);
-        helper.setTo(toAddress);
-        helper.setSubject(subject);
-
-        String verifyURL = "test" + "/verify?code=" + user.getVerificationCode();
-
-        content = content.replace("[[URL]]", verifyURL);
-
-        helper.setText(content, true);
-
-        mailSender.send(message);
-    }
+//    private void sendVerificationEmail(UtilisateurEntity user)
+//            throws UnsupportedEncodingException, MessagingException {
+//        String toAddress = user.getEmail();
+//        String fromAddress = "joylee@gmail.com";
+//        String senderName = "Joylee";
+//        String subject = "Veuiller vérifier votre compte";
+//        String sexe;
+//        if (user.getSexe() == SexeEnum.F) {
+//            sexe = "Madame";
+//        } else {
+//            sexe = "Monsieur";
+//        }
+//        String content = "Bonjour, " + sexe + " " + user.getPrenom() + " " + user.getNom() + "<br>"
+//                + "Veuiller cliquer sur le lien ci-dessous pour valider et activer votre compte:<br>"
+//                + "<h3><a href=\"[[URL]]\" target=\"_self\">Vérifier votre compte</a></h3>"
+//                + "Merci, et bienvenue parmis nous!<br>"
+//                + "Joylee.";
+//
+//        MimeMessage message = mailSender.createMimeMessage();
+//        MimeMessageHelper helper = new MimeMessageHelper(message);
+//
+//        helper.setFrom(fromAddress, senderName);
+//        helper.setTo(toAddress);
+//        helper.setSubject(subject);
+//
+//        String verifyURL = "test" + "/verify?code=" + user.getVerificationCode();
+//
+//        content = content.replace("[[URL]]", verifyURL);
+//
+//        helper.setText(content, true);
+//
+//        mailSender.send(message);
+//    }
 
     public String generateRandomString() {
         int leftLimit = 97;

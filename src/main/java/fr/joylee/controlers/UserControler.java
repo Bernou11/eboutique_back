@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -54,9 +55,14 @@ public class UserControler {
     }
 
     @PutMapping("/utilisateurs/{id}")
-    public ResponseEntity<String> updateUser(@RequestBody UtilisateurDto oldUser, @PathVariable("id") int userId){
-        userService.updateUser(userId, oldUser);
+    public ResponseEntity<String> updateUser(@PathVariable("id") int userId){
+        userService.updateUser(userId);
 
         return new ResponseEntity<>("Utilisateur modifié avec succès!", HttpStatus.OK);
+    }
+
+    @GetMapping("/utilisateurs/{email}")
+    public Optional<UtilisateurEntity> getByEmail(@PathVariable("email") String email) {
+        return userService.getByEmail(email);
     }
 }
