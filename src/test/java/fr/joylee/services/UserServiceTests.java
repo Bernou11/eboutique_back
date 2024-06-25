@@ -3,7 +3,7 @@ package fr.joylee.services;
 import fr.joylee.dto.UtilisateurDto;
 import fr.joylee.entities.UtilisateurEntity;
 import fr.joylee.enums.RoleEnum;
-import fr.joylee.mappers.UserMapper;
+import fr.joylee.enums.SexeEnum;
 import fr.joylee.repositories.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.*;
@@ -34,9 +35,6 @@ public class UserServiceTests {
     private PasswordEncoder passwordEncoder;
 
     @MockBean
-    private UserMapper userMapper;
-
-    @MockBean
     private UserRepository userRepository;
 
     @Autowired
@@ -48,21 +46,13 @@ public class UserServiceTests {
     void saveUser() {
         when(passwordEncoder.encode(Mockito.any())).thenReturn("secret");
 
-        UtilisateurEntity utilisateurEntity = new UtilisateurEntity();
-        utilisateurEntity.setCreationDate(LocalDate.now().atStartOfDay());
-        utilisateurEntity.setEmail("test@test.com");
-        utilisateurEntity.setNom("test");
-        utilisateurEntity.setPassword("test");
-        utilisateurEntity.setPrenom("test");
-        utilisateurEntity.setRole(RoleEnum.client);
-        utilisateurEntity.setStatus((byte) '1');
-        when(userRepository.save(Mockito.any())).thenReturn(utilisateurEntity);
-
         UtilisateurDto user = new UtilisateurDto();
         user.setEmail("test@test.com");
         user.setNom("test");
         user.setPassword("test");
         user.setPrenom("test");
+        user.setPseudo("test");
+        user.setSexe(SexeEnum.M);
         user.setRole(RoleEnum.client);
 
         userService.saveUser(user);
@@ -71,9 +61,38 @@ public class UserServiceTests {
         verify(passwordEncoder).encode(isA(CharSequence.class));
     }
 
-    /**
-     * Method under test: {@link UserService#updateUser(int, UtilisateurDto)}
-     */
+    @Test
+    void saveUserWithPseudo() {
+        when(passwordEncoder.encode(Mockito.any())).thenReturn("secret");
+
+        UtilisateurEntity utilisateurEntity = new UtilisateurEntity();
+        utilisateurEntity.setCreationDate(LocalDate.now().atStartOfDay());
+        utilisateurEntity.setEmail("test@test.com");
+        utilisateurEntity.setNom("test");
+        utilisateurEntity.setPassword("test");
+        utilisateurEntity.setPrenom("test");
+        utilisateurEntity.setRole(RoleEnum.client);
+        utilisateurEntity.setStatus((byte) '0');
+        utilisateurEntity.setSexe(SexeEnum.M);
+        utilisateurEntity.setPseudo("test");
+        utilisateurEntity.setUtilisateur_id(1);
+        when(userRepository.save(Mockito.any())).thenReturn(utilisateurEntity);
+
+        UtilisateurDto user = new UtilisateurDto();
+        user.setEmail("test@test.com");
+        user.setNom("test");
+        user.setPassword("test");
+        user.setPrenom("test");
+        user.setPseudo("testUpdate");
+        user.setId(1);
+        user.setRole(RoleEnum.createur);
+
+        userService.saveUser(user);
+
+        verify(userRepository).save(isA(UtilisateurEntity.class));
+        verify(passwordEncoder).encode(isA(CharSequence.class));
+    }
+
     @Test
     void testUpdateUser() {
         when(passwordEncoder.encode(Mockito.any())).thenReturn("secret");
@@ -82,10 +101,11 @@ public class UserServiceTests {
         utilisateurEntity.setCreationDate(LocalDate.now().atStartOfDay());
         utilisateurEntity.setEmail("test@test.com");
         utilisateurEntity.setNom("Test");
-        utilisateurEntity.setPassword("test");
+        utilisateurEntity.setPassword(passwordEncoder.encode("test"));
         utilisateurEntity.setPrenom("Test");
         utilisateurEntity.setRole(RoleEnum.client);
-        utilisateurEntity.setStatus((byte) '1');
+        utilisateurEntity.setStatus((byte) '0');
+        utilisateurEntity.setUtilisateur_id(1);
 
         UtilisateurEntity utilisateurEntity2 = new UtilisateurEntity();
         utilisateurEntity2.setCreationDate(LocalDate.now().atStartOfDay());
@@ -105,15 +125,10 @@ public class UserServiceTests {
         user.setPassword(utilisateurEntity2.getPassword());
         user.setPrenom(utilisateurEntity2.getPrenom());
         user.setPseudo(utilisateurEntity2.getPseudo());
-        user.setRole(RoleEnum.createur);
+        user.setRole(utilisateurEntity2.getRole());
 
         // Act
-        userService.updateUser(1, user);
-
-        // Assert
-        verify(userMapper).toUser(isA(UtilisateurDto.class));
-        verify(userRepository).findById(eq(1));
-        verify(userRepository).save(isA(UtilisateurEntity.class));
+        userService.updateUser(1);
         verify(passwordEncoder).encode(isA(CharSequence.class));
     }
 
@@ -128,7 +143,7 @@ public class UserServiceTests {
         utilisateurEntity.setPassword("test");
         utilisateurEntity.setPrenom("Test");
         utilisateurEntity.setRole(RoleEnum.client);
-        utilisateurEntity.setStatus((byte) '1');
+        utilisateurEntity.setStatus((byte) '0');
 
         utilisateurEntityList.add(utilisateurEntity);
 
@@ -138,5 +153,112 @@ public class UserServiceTests {
 
         verify(userRepository).findAll();
         assertSame(utilisateurEntityList, actualUsers);
+    }
+
+    @Test
+    void testFindById() {
+        // Arrange
+        UtilisateurEntity utilisateurEntity = new UtilisateurEntity();
+        utilisateurEntity.setCreationDate(LocalDate.now().atStartOfDay());
+        utilisateurEntity.setEmail("test@test.fr");
+        utilisateurEntity.setNom("Test");
+        utilisateurEntity.setPassword("test");
+        utilisateurEntity.setPrenom("Test");
+        utilisateurEntity.setPseudo("Test");
+        utilisateurEntity.setRole(RoleEnum.client);
+        utilisateurEntity.setSexe(SexeEnum.F);
+        utilisateurEntity.setStatus((byte) '0');
+        utilisateurEntity.setUtilisateur_id(1);
+        Optional<UtilisateurEntity> ofResult = Optional.of(utilisateurEntity);
+        when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
+
+        Optional<UtilisateurEntity> actualFindByIdResult = userService.findById(utilisateurEntity.getUtilisateur_id());
+
+        // Assert
+        verify(userRepository).findById(eq(utilisateurEntity.getUtilisateur_id()));
+        assertSame(ofResult, actualFindByIdResult);
+    }
+
+    @Test
+    void testDeleteUserById() {
+        doNothing().when(userRepository).deleteById(Mockito.<Integer>any());
+
+        UtilisateurEntity utilisateurEntity = new UtilisateurEntity();
+        utilisateurEntity.setCreationDate(LocalDate.now().atStartOfDay());
+        utilisateurEntity.setUtilisateur_id(1);
+        utilisateurEntity.setEmail("test@test.com");
+        utilisateurEntity.setNom("Test");
+        utilisateurEntity.setPassword("test");
+        utilisateurEntity.setPrenom("Test");
+        utilisateurEntity.setRole(RoleEnum.client);
+        utilisateurEntity.setStatus((byte) '0');
+
+        userService.deleteUserById(utilisateurEntity.getUtilisateur_id());
+
+        verify(userRepository).deleteById(eq(1));
+    }
+
+    @Test
+    void testGetByEmail() {
+        // Arrange
+        UtilisateurEntity utilisateurEntity = new UtilisateurEntity();
+        utilisateurEntity.setCreationDate(LocalDate.now().atStartOfDay());
+        utilisateurEntity.setEmail("test.test@test.com");
+        utilisateurEntity.setNom("Test");
+        utilisateurEntity.setPassword("Test");
+        utilisateurEntity.setPrenom("Test");
+        utilisateurEntity.setPseudo("Test");
+        utilisateurEntity.setRole(RoleEnum.client);
+        utilisateurEntity.setSexe(SexeEnum.M);
+        utilisateurEntity.setStatus((byte) '0');
+        utilisateurEntity.setUtilisateur_id(1);
+        utilisateurEntity.setVerificationCode("Verification Code");
+        Optional<UtilisateurEntity> ofResult = Optional.of(utilisateurEntity);
+        when(userRepository.findByEmail(Mockito.any())).thenReturn(ofResult);
+
+        Optional<UtilisateurEntity> actualByEmail = userService.getByEmail("test.test@test.com");
+
+        verify(userRepository).findByEmail(eq("test.test@test.com"));
+        assertSame(ofResult, actualByEmail);
+    }
+
+    @Test
+    void testGetByEmail2() {
+        // Arrange
+        when(userRepository.findByEmail(Mockito.any())).thenThrow(
+                new RuntimeException("Email non existant")
+        );
+
+        // Act and Assert
+        assertThrows(
+                RuntimeException.class, () -> userService.getByEmail("error.error@error.com")
+        );
+        verify(userRepository).findByEmail(eq("error.error@error.com"));
+    }
+
+    @Test
+    void testFindByPrenomAndNom() {
+        // Arrange
+        UtilisateurEntity utilisateurEntity = new UtilisateurEntity();
+        utilisateurEntity.setCreationDate(LocalDate.of(1970, 1, 1).atStartOfDay());
+        utilisateurEntity.setEmail("test.test@test.com");
+        utilisateurEntity.setNom("Test");
+        utilisateurEntity.setPassword("Test");
+        utilisateurEntity.setPrenom("Test");
+        utilisateurEntity.setPseudo("Test");
+        utilisateurEntity.setRole(RoleEnum.client);
+        utilisateurEntity.setSexe(SexeEnum.F);
+        utilisateurEntity.setStatus((byte) '0');
+        utilisateurEntity.setUtilisateur_id(1);
+        utilisateurEntity.setVerificationCode("Verification Code");
+        Optional<UtilisateurEntity> ofResult = Optional.of(utilisateurEntity);
+        when(userRepository.findByPrenomAndNom(Mockito.<String>any(), Mockito.<String>any())).thenReturn(ofResult);
+
+        // Act
+        Optional<UtilisateurEntity> actualFindByPrenomAndNomResult = userService.findByPrenomAndNom("Prenom", "Nom");
+
+        // Assert
+        verify(userRepository).findByPrenomAndNom(eq("Prenom"), eq("Nom"));
+        assertSame(ofResult, actualFindByPrenomAndNomResult);
     }
 }
