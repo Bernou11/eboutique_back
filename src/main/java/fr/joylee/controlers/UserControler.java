@@ -4,6 +4,7 @@ import fr.joylee.dto.UtilisateurDto;
 import fr.joylee.entities.UtilisateurEntity;
 import fr.joylee.services.UserService;
 import jakarta.mail.MessagingException;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/eboutique/api")
 public class UserControler {
     private final UserService userService;
 
@@ -44,7 +45,7 @@ public class UserControler {
     public ResponseEntity<String> createUser(@RequestBody UtilisateurDto newUser) throws MessagingException, UnsupportedEncodingException {
         userService.saveUser(newUser);
 
-        return new ResponseEntity<>("Utilisateur créé avec succès!", HttpStatus.OK);
+        return new ResponseEntity<>("Utilisateur créé avec succès!", HttpStatus.CREATED);
     }
 
     @DeleteMapping("/utilisateurs/{id}")
@@ -54,11 +55,11 @@ public class UserControler {
         return new ResponseEntity<>("Utilisateur supprimé avec succès!.", HttpStatus.OK);
     }
 
-    @PutMapping("/utilisateurs/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable("id") int userId){
-        userService.updateUser(userId);
+    @PutMapping("/utilisateurs")
+    public ResponseEntity<String> updateUser(@RequestBody UtilisateurDto dto){
+        userService.updateUser(dto);
 
-        return new ResponseEntity<>("Utilisateur modifié avec succès!", HttpStatus.OK);
+        return new ResponseEntity<>("Utilisateur modifié avec succès!", HttpStatus.CREATED);
     }
 
     @GetMapping("/utilisateurs/{email}")

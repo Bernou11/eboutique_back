@@ -19,8 +19,8 @@ import java.util.Objects;
 public class UtilisateurEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "utilisateur_id", nullable = false)
-    private int utilisateur_id;
+    @Column(name = "id", nullable = false)
+    private int id;
 
     @Column(name = "email", nullable = false, length = 30)
     private String email;
@@ -63,7 +63,7 @@ public class UtilisateurEntity {
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
         UtilisateurEntity that = (UtilisateurEntity) o;
-        return Objects.equals(getUtilisateur_id(), that.getUtilisateur_id());
+        return Objects.equals(getId(), that.getId());
     }
 
     @Override
