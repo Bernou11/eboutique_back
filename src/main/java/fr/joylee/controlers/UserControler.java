@@ -62,7 +62,7 @@ public class UserControler {
         return new ResponseEntity<>("Utilisateur modifié avec succès!", HttpStatus.CREATED);
     }
 
-    @GetMapping("/utilisateurs/{email}")
+    @GetMapping("/utilisateurs/email/{email}")
     public Optional<UtilisateurEntity> getByEmail(@PathVariable("email") String email) {
         return userService.getByEmail(email);
     }
