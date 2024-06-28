@@ -4,6 +4,7 @@ import fr.joylee.dto.UtilisateurDto;
 import fr.joylee.entities.UtilisateurEntity;
 import fr.joylee.enums.RoleEnum;
 import fr.joylee.enums.SexeEnum;
+import fr.joylee.mappers.UserMapperImpl;
 import fr.joylee.repositories.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,9 @@ public class UserServiceTests {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private UserMapperImpl mapper;
+
     @Autowired
     private UserService userService;
 
@@ -52,7 +56,7 @@ public class UserServiceTests {
         user.setPassword("test");
         user.setPrenom("test");
         user.setPseudo("test");
-        user.setSexe(SexeEnum.M);
+        user.setSexe("M");
         user.setRole(RoleEnum.client);
 
         userService.saveUser(user);
@@ -75,7 +79,7 @@ public class UserServiceTests {
         utilisateurEntity.setStatus((byte) '0');
         utilisateurEntity.setSexe(SexeEnum.M);
         utilisateurEntity.setPseudo("test");
-        utilisateurEntity.setUtilisateur_id(1);
+        utilisateurEntity.setId(1);
         when(userRepository.save(Mockito.any())).thenReturn(utilisateurEntity);
 
         UtilisateurDto user = new UtilisateurDto();
@@ -105,7 +109,7 @@ public class UserServiceTests {
         utilisateurEntity.setPrenom("Test");
         utilisateurEntity.setRole(RoleEnum.client);
         utilisateurEntity.setStatus((byte) '0');
-        utilisateurEntity.setUtilisateur_id(1);
+        utilisateurEntity.setId(1);
 
         UtilisateurEntity utilisateurEntity2 = new UtilisateurEntity();
         utilisateurEntity2.setCreationDate(LocalDate.now().atStartOfDay());
@@ -119,16 +123,16 @@ public class UserServiceTests {
         when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
 
         UtilisateurDto user = new UtilisateurDto();
+        user.setId(utilisateurEntity.getId());
         user.setEmail(utilisateurEntity2.getEmail());
-        user.setId(utilisateurEntity2.getUtilisateur_id());
+        user.setId(utilisateurEntity2.getId());
         user.setNom(utilisateurEntity2.getNom());
         user.setPassword(utilisateurEntity2.getPassword());
         user.setPrenom(utilisateurEntity2.getPrenom());
         user.setPseudo(utilisateurEntity2.getPseudo());
         user.setRole(utilisateurEntity2.getRole());
 
-        // Act
-        userService.updateUser(1);
+        userService.updateUser(user);
         verify(passwordEncoder).encode(isA(CharSequence.class));
     }
 
@@ -168,14 +172,14 @@ public class UserServiceTests {
         utilisateurEntity.setRole(RoleEnum.client);
         utilisateurEntity.setSexe(SexeEnum.F);
         utilisateurEntity.setStatus((byte) '0');
-        utilisateurEntity.setUtilisateur_id(1);
+        utilisateurEntity.setId(1);
         Optional<UtilisateurEntity> ofResult = Optional.of(utilisateurEntity);
         when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
 
-        Optional<UtilisateurEntity> actualFindByIdResult = userService.findById(utilisateurEntity.getUtilisateur_id());
+        Optional<UtilisateurEntity> actualFindByIdResult = userService.findById(utilisateurEntity.getId());
 
         // Assert
-        verify(userRepository).findById(eq(utilisateurEntity.getUtilisateur_id()));
+        verify(userRepository).findById(eq(utilisateurEntity.getId()));
         assertSame(ofResult, actualFindByIdResult);
     }
 
@@ -185,7 +189,7 @@ public class UserServiceTests {
 
         UtilisateurEntity utilisateurEntity = new UtilisateurEntity();
         utilisateurEntity.setCreationDate(LocalDate.now().atStartOfDay());
-        utilisateurEntity.setUtilisateur_id(1);
+        utilisateurEntity.setId(1);
         utilisateurEntity.setEmail("test@test.com");
         utilisateurEntity.setNom("Test");
         utilisateurEntity.setPassword("test");
@@ -193,7 +197,7 @@ public class UserServiceTests {
         utilisateurEntity.setRole(RoleEnum.client);
         utilisateurEntity.setStatus((byte) '0');
 
-        userService.deleteUserById(utilisateurEntity.getUtilisateur_id());
+        userService.deleteUserById(utilisateurEntity.getId());
 
         verify(userRepository).deleteById(eq(1));
     }
@@ -211,7 +215,7 @@ public class UserServiceTests {
         utilisateurEntity.setRole(RoleEnum.client);
         utilisateurEntity.setSexe(SexeEnum.M);
         utilisateurEntity.setStatus((byte) '0');
-        utilisateurEntity.setUtilisateur_id(1);
+        utilisateurEntity.setId(1);
         utilisateurEntity.setVerificationCode("Verification Code");
         Optional<UtilisateurEntity> ofResult = Optional.of(utilisateurEntity);
         when(userRepository.findByEmail(Mockito.any())).thenReturn(ofResult);
@@ -249,7 +253,7 @@ public class UserServiceTests {
         utilisateurEntity.setRole(RoleEnum.client);
         utilisateurEntity.setSexe(SexeEnum.F);
         utilisateurEntity.setStatus((byte) '0');
-        utilisateurEntity.setUtilisateur_id(1);
+        utilisateurEntity.setId(1);
         utilisateurEntity.setVerificationCode("Verification Code");
         Optional<UtilisateurEntity> ofResult = Optional.of(utilisateurEntity);
         when(userRepository.findByPrenomAndNom(Mockito.<String>any(), Mockito.<String>any())).thenReturn(ofResult);

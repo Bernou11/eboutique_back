@@ -3,6 +3,7 @@ package fr.joylee.services;
 import fr.joylee.dto.UtilisateurDto;
 import fr.joylee.entities.UtilisateurEntity;
 import fr.joylee.enums.RoleEnum;
+import fr.joylee.enums.SexeEnum;
 import fr.joylee.repositories.UserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -77,15 +78,37 @@ public class UserService {
 
     /**
      *
-     * @param id : id de l'utilisateur à modifier
-     *
      * @implNote : Modifie les informations d'un utilisateur
+     *
      */
     @Transactional
-    public void updateUser(int id) {
-        repo.updateByUtilisateur_id(id);
+    public void updateUser(UtilisateurDto dto) {
+        UtilisateurEntity entity = repo.findById(dto.getId()).get();
+        if(dto.getSexe() != null) {
+            switch (dto.getSexe()) {
+                case "M", "m" -> entity.setSexe(SexeEnum.M);
+                case "F", "f" -> entity.setSexe(SexeEnum.F);
+                case "Autre", "autre" -> entity.setSexe(SexeEnum.autre);
+            }
+        }
+        if(dto.getPseudo() != null) {
+            entity.setPseudo(dto.getPseudo());
+        }
+        if(dto.getNom() != null) {
+            entity.setNom(dto.getNom());
+        }
+        if(dto.getPrenom() != null) {
+            entity.setPrenom(dto.getPrenom());
+        }
+        if(dto.getEmail() != null) {
+            entity.setEmail(dto.getEmail());
+        }
+        if(dto.getPassword() != null) {
+            entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+        repo.save(entity);
 
-        log.info("L'utilisateur {} a été modifié avec succès", id);
+        log.info("L'utilisateur {} a été modifié avec succès", dto.getId());
     }
 
     /**
@@ -106,7 +129,13 @@ public class UserService {
             newUser.setPseudo(user.getPseudo());
         }
         newUser.setRole(RoleEnum.client);
-        newUser.setSexe(user.getSexe());
+        if(user.getSexe().equals("F") || user.getSexe().equals("f")) {
+            newUser.setSexe(SexeEnum.F);
+        } if(user.getSexe().equals("M") || user.getSexe().equals("m")) {
+            newUser.setSexe(SexeEnum.M);
+        } if(user.getSexe().equals("Autre") || user.getSexe().equals("autre")) {
+            newUser.setSexe(SexeEnum.autre);
+        }
         newUser.setStatus((byte) 0);
         newUser.setCreationDate(LocalDateTime.now());
         newUser.setVerificationCode(generateRandomString());
@@ -116,7 +145,7 @@ public class UserService {
         // TODO : Ajouter l'url de l'application
 //        sendVerificationEmail(newUser);
 
-        log.info("L'utilisateur {} a été créé avec succès", newUser.getUtilisateur_id());
+        log.info("L'utilisateur {} a été créé avec succès", newUser.getId());
     }
 
     /**

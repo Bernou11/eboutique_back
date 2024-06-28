@@ -13,8 +13,8 @@ import lombok.Setter;
 public class CommandeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "commande_id", nullable = false)
-    private int commande_id;
+    @Column(name = "id", nullable = false)
+    private int id;
 
     @Column(name = "prixHT", nullable = false, precision = 0)
     private Double prixHt;
