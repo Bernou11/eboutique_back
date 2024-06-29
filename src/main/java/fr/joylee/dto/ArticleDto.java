@@ -8,17 +8,27 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 public class ArticleDto {
-    private int article_id;
+    private int id;
 
     private String description;
 
     private String image;
 
-    private Byte genre;
+    private String genre;
+
+    private String createur;
 
     private Double prixHT;
 
     private Double prixTTC;
 
     private String collection;
+
+    private String placement;
+
+    private String type;
+
+    private String sousType;
+
+    private String age;
 }

@@ -129,11 +129,11 @@ public class UserService {
             newUser.setPseudo(user.getPseudo());
         }
         newUser.setRole(RoleEnum.client);
-        if(user.getSexe().equals("F") || user.getSexe().equals("f")) {
+        if(user.getSexe().equalsIgnoreCase("f")) {
             newUser.setSexe(SexeEnum.F);
-        } if(user.getSexe().equals("M") || user.getSexe().equals("m")) {
+        } if(user.getSexe().equalsIgnoreCase("m")) {
             newUser.setSexe(SexeEnum.M);
-        } if(user.getSexe().equals("Autre") || user.getSexe().equals("autre")) {
+        } if(user.getSexe().equalsIgnoreCase("autre")) {
             newUser.setSexe(SexeEnum.autre);
         }
         newUser.setStatus((byte) 0);
