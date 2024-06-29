@@ -4,7 +4,6 @@ import fr.joylee.dto.UtilisateurDto;
 import fr.joylee.entities.UtilisateurEntity;
 import fr.joylee.enums.RoleEnum;
 import fr.joylee.enums.SexeEnum;
-import fr.joylee.mappers.UserMapperImpl;
 import fr.joylee.repositories.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,9 +36,6 @@ public class UserServiceTests {
 
     @MockBean
     private UserRepository userRepository;
-
-    @MockBean
-    private UserMapperImpl mapper;
 
     @Autowired
     private UserService userService;

@@ -1,7 +1,7 @@
 package fr.joylee.enums;
 
 public enum TypeEnum {
-    vêtement,
-    sous_vêtement,
+    vetement,
+    sous_vetement,
     chaussures;
 }
