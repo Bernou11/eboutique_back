@@ -1,15 +1,17 @@
 package fr.joylee.entities;
 
+import fr.joylee.enums.StatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "commande", schema = "eboutique")
 @Getter
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
 public class CommandeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -22,10 +24,14 @@ public class CommandeEntity {
     @Column(name = "prixTTC", nullable = false, precision = 0)
     private Double prixTtc;
 
+    @Column(name = "adresse_livraison", nullable = false)
+    private String adresse;
+
     @Column(name = "status", nullable = false)
-    private Byte status;
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
 
-    public CommandeEntity() {
-
-    }
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "utilisateur_id")
+    private UtilisateurEntity utilisateur;
 }
