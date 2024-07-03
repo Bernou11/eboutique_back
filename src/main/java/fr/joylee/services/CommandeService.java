@@ -54,7 +54,7 @@ public class CommandeService {
     }
 
     @Transactional
-    public void updateCommande(CommandeUpdateDto dto) {
+    public CommandeEntity updateCommande(CommandeUpdateDto dto) {
         CommandeEntity commande = repo.findById(dto.getId());
 
         commandeMapper.updateCommandeFromDto(dto, commande);
@@ -62,6 +62,8 @@ public class CommandeService {
         repo.save(commande);
 
         log.info("La commande {} a été modifiée avec succès", dto.getId());
+
+        return commande;
     }
 
     @Transactional

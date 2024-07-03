@@ -56,7 +56,7 @@ public class ArticleService {
         switch(article.getType().toLowerCase()) {
             case "vetement" -> articleEntity.setType(TypeEnum.vetement);
             case "sous_vetement" -> articleEntity.setType(TypeEnum.sous_vetement);
-            case "chassure" -> articleEntity.setType(TypeEnum.chaussures);
+            case "chaussures" -> articleEntity.setType(TypeEnum.chaussures);
         }
         switch(article.getPlacement().toLowerCase()) {
             case "haut" -> articleEntity.setPlacement(PlacementEnum.haut);
@@ -78,7 +78,7 @@ public class ArticleService {
         log.info("L'article a été enregistré avec succès. ID : {}", articleEntity.getId());
     }
 
-    public void updateArticle(ArticleDto dto) {
+    public ArticleEntity updateArticle(ArticleDto dto) {
         ArticleEntity entity = repo.findById(dto.getId()).get();
 
         articleMapper.updateArticleFromDto(dto, entity);
@@ -123,6 +123,8 @@ public class ArticleService {
         repo.save(entity);
 
         log.info("L'article {} a été modifié avec succès", entity.getId());
+
+        return entity;
     }
 
     public void deleteById(int id) {

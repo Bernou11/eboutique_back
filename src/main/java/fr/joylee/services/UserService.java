@@ -82,7 +82,7 @@ public class UserService {
      *
      */
     @Transactional
-    public void updateUser(UtilisateurDto dto) {
+    public UtilisateurEntity updateUser(UtilisateurDto dto) {
         UtilisateurEntity entity = repo.findById(dto.getId()).get();
         if(dto.getSexe() != null) {
             switch (dto.getSexe()) {
@@ -109,6 +109,8 @@ public class UserService {
         repo.save(entity);
 
         log.info("L'utilisateur {} a été modifié avec succès", dto.getId());
+
+        return entity;
     }
 
     /**
