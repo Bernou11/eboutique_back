@@ -5,8 +5,8 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>3.2.0</version>
+		<relativePath/>
 	</parent>
 	<groupId>fr.sqli</groupId>
 	<artifactId>Joylee</artifactId>
@@ -14,9 +14,17 @@
 	<name>eboutique</name>
 	<description>Projet eboutique</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>21</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<version.lombok-mapstruct>0.2.0</version.lombok-mapstruct>
+		<version.jacoco>0.8.11</version.jacoco>
+		<version.swagger.core>2.2.22</version.swagger.core>
+		<version.mysql.connector>9.0.0</version.mysql.connector>
+		<version.lombok>1.18.30</version.lombok>
+		<version.mapstruct>1.5.3.Final</version.mapstruct>
+		<version.springdoc>2.6.0</version.springdoc>
+		<version.hibernate.validator>8.0.1.Final</version.hibernate.validator>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -27,7 +35,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -37,8 +44,7 @@
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
-			<version>8.2.0</version>
-			<scope>runtime</scope>
+			<version>${version.mysql.connector}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -48,37 +54,31 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.30</version>
+			<version>${version.lombok}</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>6.1.7.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-core</artifactId>
-			<version>2.2.22</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>6.2.3</version>
+			<version>${version.swagger.core}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.6.0.Beta1</version>
+			<version>${version.mapstruct}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-processor</artifactId>
-			<version>1.5.3.Final</version>
+			<version>${version.mapstruct}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -88,27 +88,12 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.6.0</version>
+			<version>${version.springdoc}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>8.0.0.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jaxb</groupId>
-			<artifactId>jaxb-runtime</artifactId>
-			<version>2.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jacoco</groupId>
-			<artifactId>jacoco-maven-plugin</artifactId>
-			<version>0.8.12</version>
+			<version>${version.hibernate.validator}</version>
 		</dependency>
 
 	</dependencies>
@@ -122,7 +107,20 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.8</version>
+				<version>${version.jacoco}</version>
+				<configuration>
+					<excludes>
+						<exclude>fr/joylee/controlers/*.class</exclude>
+						<exclude>fr/joylee/configuration/*</exclude>
+						<exclude>fr/joylee/dto/*</exclude>
+						<exclude>fr/joylee/entities/*</exclude>
+						<exclude>fr/joylee/enums/*</exclude>
+						<exclude>fr/joylee/mappers/*</exclude>
+						<outputDirectory>${project.build.directory}/jacoco</outputDirectory>
+						<dataFile>target/jacoco.exec</dataFile>
+					</excludes>
+				</configuration>
+
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
@@ -138,11 +136,31 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<outputDirectory>${project.build.directory}/jacoco</outputDirectory>
-					<dataFile>target/jacoco.exec</dataFile>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${version.mapstruct}</version>
+						</path>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${version.lombok}</version>
+						</path>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok-mapstruct-binding</artifactId>
+							<version>${version.lombok-mapstruct}</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 
