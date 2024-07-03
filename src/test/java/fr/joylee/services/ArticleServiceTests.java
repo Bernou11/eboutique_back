@@ -118,56 +118,6 @@ public class ArticleServiceTests {
         assertSame(ofResult, actualFindByIdResult);
     }
 
-//    @Test
-//    void testFindByCreateur() {
-//        // Given
-//
-//        ArticleEntity articleEntity = new ArticleEntity();
-//        articleEntity.setAge(AgeEnum.adulte);
-//        articleEntity.setCollection(CollectionsEnum.ete);
-//        articleEntity.setCreateur("Createur");
-//        articleEntity.setDescription("Description");
-//        articleEntity.setGenre(SexeEnum.F);
-//        articleEntity.setId(1);
-//        articleEntity.setImage("Image");
-//        articleEntity.setPlacement(PlacementEnum.haut);
-//        articleEntity.setPrixHT(10.0d);
-//        articleEntity.setPrixTTC(10.0d);
-//        articleEntity.setSous_type("Sous type");
-//        articleEntity.setType(TypeEnum.vetement);
-//
-//        Optional<ArticleEntity> ofResult = Optional.of(articleEntity);
-//
-//        ArticleEntity articleEntity2 = new ArticleEntity();
-//        articleEntity2.setAge(AgeEnum.adulte);
-//        articleEntity2.setCollection(CollectionsEnum.ete);
-//        articleEntity2.setCreateur("False");
-//        articleEntity2.setDescription("Description");
-//        articleEntity2.setGenre(SexeEnum.F);
-//        articleEntity2.setId(2);
-//        articleEntity2.setImage("Image");
-//        articleEntity2.setPlacement(PlacementEnum.haut);
-//        articleEntity2.setPrixHT(10.0d);
-//        articleEntity2.setPrixTTC(10.0d);
-//        articleEntity2.setSous_type("Sous type");
-//        articleEntity2.setType(TypeEnum.vetement);
-//
-//        Optional<ArticleEntity> ofResult2 = Optional.of(articleEntity2);
-//
-//        List<ArticleEntity> mockEntities = Arrays.asList(ofResult.get(), ofResult2.get());
-//
-//        // When
-//
-//        when(articleService.findByCreateur(anyString())).thenReturn(mockEntities);
-//
-//        // Then
-//
-//        List<ArticleEntity> foundArticles = articleService.findByCreateur("Createur");
-//
-//        assertTrue(foundArticles.size() == 1);
-//        assertTrue(foundArticles.stream().allMatch(article -> "Createur".equals(article.getCreateur())));
-//    }
-
     @Test
     void testSaveNewArticle() {
         ArticleDto article = new ArticleDto();

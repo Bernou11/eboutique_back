@@ -92,44 +92,6 @@ public class UserServiceTests {
         verify(passwordEncoder).encode(isA(CharSequence.class));
     }
 
-//    @Test
-//    void testUpdateUser() {
-//        when(passwordEncoder.encode(Mockito.any())).thenReturn("secret");
-//
-//        UtilisateurEntity utilisateurEntity = new UtilisateurEntity();
-//        utilisateurEntity.setCreationDate(LocalDate.now().atStartOfDay());
-//        utilisateurEntity.setEmail("test@test.com");
-//        utilisateurEntity.setNom("Test");
-//        utilisateurEntity.setPassword("test");
-//        utilisateurEntity.setPrenom("Test");
-//        utilisateurEntity.setRole(RoleEnum.client);
-//        utilisateurEntity.setStatus((byte) '0');
-//        utilisateurEntity.setId(1);
-//
-//        UtilisateurEntity utilisateurEntity2 = new UtilisateurEntity();
-//        utilisateurEntity2.setCreationDate(LocalDate.now().atStartOfDay());
-//        utilisateurEntity2.setEmail("test-update@test.com");
-//        utilisateurEntity2.setNom("Update");
-//        utilisateurEntity2.setPassword("test-update");
-//        utilisateurEntity2.setPrenom("Test");
-//        utilisateurEntity2.setRole(RoleEnum.createur);
-//        Optional<UtilisateurEntity> ofResult = Optional.of(utilisateurEntity2);
-//        when(userRepository.save(Mockito.any())).thenReturn(utilisateurEntity);
-//        when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
-//
-//        UtilisateurDto user = new UtilisateurDto();
-//        user.setId(utilisateurEntity.getId());
-//        user.setEmail(utilisateurEntity2.getEmail());
-//        user.setId(utilisateurEntity2.getId());
-//        user.setNom(utilisateurEntity2.getNom());
-//        user.setPassword(utilisateurEntity2.getPassword());
-//        user.setPrenom(utilisateurEntity2.getPrenom());
-//        user.setPseudo(utilisateurEntity2.getPseudo());
-//
-//        userService.updateUser(user);
-//        verify(passwordEncoder).encode(isA(CharSequence.class));
-//    }
-
     @Test
     void testGetUsers() {
         // Arrange
