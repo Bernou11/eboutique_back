@@ -125,7 +125,7 @@ public class ArticleServiceTests {
         article.setCollection("ete");
         article.setCreateur("Createur");
         article.setDescription("Description");
-        article.setGenre("H");
+        article.setGenre("m");
         article.setImage("Image");
         article.setPlacement("haut");
         article.setPrixHT(10.0d);
@@ -145,7 +145,7 @@ public class ArticleServiceTests {
         article.setCollection("printemps");
         article.setCreateur("Createur");
         article.setDescription("Description");
-        article.setGenre("H");
+        article.setGenre("m");
         article.setImage("Image");
         article.setPlacement("haut");
         article.setPrixHT(10.0d);
@@ -165,7 +165,7 @@ public class ArticleServiceTests {
         article.setCollection("automne");
         article.setCreateur("Createur");
         article.setDescription("Description");
-        article.setGenre("H");
+        article.setGenre("m");
         article.setImage("Image");
         article.setPlacement("haut");
         article.setPrixHT(10.0d);
@@ -185,13 +185,169 @@ public class ArticleServiceTests {
         article.setCollection("hiver");
         article.setCreateur("Createur");
         article.setDescription("Description");
-        article.setGenre("H");
+        article.setGenre("m");
         article.setImage("Image");
         article.setPlacement("haut");
         article.setPrixHT(10.0d);
         article.setPrixTTC(10.0d);
         article.setSousType("Sous-Type");
         article.setType("vetement");
+
+        articleService.saveNewArticle(article);
+
+        verify(articleRepository).save(isA(ArticleEntity.class));
+    }
+    @Test
+    void testSaveNewArticleFemme() {
+        ArticleDto article = new ArticleDto();
+        article.setAge("adulte");
+        article.setCollection("hiver");
+        article.setCreateur("Createur");
+        article.setDescription("Description");
+        article.setGenre("f");
+        article.setImage("Image");
+        article.setPlacement("haut");
+        article.setPrixHT(10.0d);
+        article.setPrixTTC(10.0d);
+        article.setSousType("Sous-Type");
+        article.setType("vetement");
+
+        articleService.saveNewArticle(article);
+
+        verify(articleRepository).save(isA(ArticleEntity.class));
+    }
+    @Test
+    void testSaveNewArticleAutre() {
+        ArticleDto article = new ArticleDto();
+        article.setAge("adulte");
+        article.setCollection("hiver");
+        article.setCreateur("Createur");
+        article.setDescription("Description");
+        article.setGenre("autre");
+        article.setImage("Image");
+        article.setPlacement("haut");
+        article.setPrixHT(10.0d);
+        article.setPrixTTC(10.0d);
+        article.setSousType("Sous-Type");
+        article.setType("vetement");
+
+        articleService.saveNewArticle(article);
+
+        verify(articleRepository).save(isA(ArticleEntity.class));
+    }
+    @Test
+    void testSaveNewArticleBas() {
+        ArticleDto article = new ArticleDto();
+        article.setAge("adulte");
+        article.setCollection("hiver");
+        article.setCreateur("Createur");
+        article.setDescription("Description");
+        article.setGenre("autre");
+        article.setImage("Image");
+        article.setPlacement("bas");
+        article.setPrixHT(10.0d);
+        article.setPrixTTC(10.0d);
+        article.setSousType("Sous-Type");
+        article.setType("vetement");
+
+        articleService.saveNewArticle(article);
+
+        verify(articleRepository).save(isA(ArticleEntity.class));
+    }
+    @Test
+    void testSaveNewArticleEnsemble() {
+        ArticleDto article = new ArticleDto();
+        article.setAge("adulte");
+        article.setCollection("hiver");
+        article.setCreateur("Createur");
+        article.setDescription("Description");
+        article.setGenre("autre");
+        article.setImage("Image");
+        article.setPlacement("ensemble");
+        article.setPrixHT(10.0d);
+        article.setPrixTTC(10.0d);
+        article.setSousType("Sous-Type");
+        article.setType("vetement");
+
+        articleService.saveNewArticle(article);
+
+        verify(articleRepository).save(isA(ArticleEntity.class));
+    }
+
+    @Test
+    void testSaveNewArticleSousVetement() {
+        ArticleDto article = new ArticleDto();
+        article.setAge("adulte");
+        article.setCollection("hiver");
+        article.setCreateur("Createur");
+        article.setDescription("Description");
+        article.setGenre("autre");
+        article.setImage("Image");
+        article.setPlacement("ensemble");
+        article.setPrixHT(10.0d);
+        article.setPrixTTC(10.0d);
+        article.setSousType("Sous-Type");
+        article.setType("sous_vetement");
+
+        articleService.saveNewArticle(article);
+
+        verify(articleRepository).save(isA(ArticleEntity.class));
+    }
+
+    @Test
+    void testSaveNewArticleChaussures() {
+        ArticleDto article = new ArticleDto();
+        article.setAge("adulte");
+        article.setCollection("hiver");
+        article.setCreateur("Createur");
+        article.setDescription("Description");
+        article.setGenre("autre");
+        article.setImage("Image");
+        article.setPlacement("ensemble");
+        article.setPrixHT(10.0d);
+        article.setPrixTTC(10.0d);
+        article.setSousType("Sous-Type");
+        article.setType("chaussures");
+
+        articleService.saveNewArticle(article);
+
+        verify(articleRepository).save(isA(ArticleEntity.class));
+    }
+
+    @Test
+    void testSaveNewArticleEnfant() {
+        ArticleDto article = new ArticleDto();
+        article.setAge("enfant");
+        article.setCollection("hiver");
+        article.setCreateur("Createur");
+        article.setDescription("Description");
+        article.setGenre("autre");
+        article.setImage("Image");
+        article.setPlacement("ensemble");
+        article.setPrixHT(10.0d);
+        article.setPrixTTC(10.0d);
+        article.setSousType("Sous-Type");
+        article.setType("chaussures");
+
+        articleService.saveNewArticle(article);
+
+        verify(articleRepository).save(isA(ArticleEntity.class));
+    }
+
+    @Test
+    void testSaveNewArticleAdo() {
+        ArticleDto article = new ArticleDto();
+        article.setAge("ado");
+        article.setCollection("hiver");
+        article.setCreateur("Createur");
+        article.setDescription("Description");
+        article.setGenre("autre");
+        article.setImage("Image");
+        article.setPlacement("ensemble");
+        article.setPrixHT(10.0d);
+        article.setPrixTTC(10.0d);
+        article.setSousType("Sous-Type");
+        article.setType("chaussures");
 
         articleService.saveNewArticle(article);
 
