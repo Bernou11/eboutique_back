@@ -42,8 +42,8 @@ public class UserServiceTests {
 
 
     @Test
-    @DisplayName("Création d'un utilisateur")
-    void saveUser() {
+    @DisplayName("Création d'un utilisateur masculin")
+    void saveUserMan() {
         when(passwordEncoder.encode(Mockito.any())).thenReturn("secret");
 
         UtilisateurDto user = new UtilisateurDto();
@@ -53,6 +53,44 @@ public class UserServiceTests {
         user.setPrenom("test");
         user.setPseudo("test");
         user.setSexe("M");
+
+        userService.saveUser(user);
+
+        verify(userRepository).save(isA(UtilisateurEntity.class));
+        verify(passwordEncoder).encode(isA(CharSequence.class));
+    }
+
+    @Test
+    @DisplayName("Création d'un utilisateur féminin")
+    void saveUserWoman() {
+        when(passwordEncoder.encode(Mockito.any())).thenReturn("secret");
+
+        UtilisateurDto user = new UtilisateurDto();
+        user.setEmail("test@test.com");
+        user.setNom("test");
+        user.setPassword("test");
+        user.setPrenom("test");
+        user.setPseudo("test");
+        user.setSexe("f");
+
+        userService.saveUser(user);
+
+        verify(userRepository).save(isA(UtilisateurEntity.class));
+        verify(passwordEncoder).encode(isA(CharSequence.class));
+    }
+
+    @Test
+    @DisplayName("Création d'un utilisateur autre")
+    void saveUserOther() {
+        when(passwordEncoder.encode(Mockito.any())).thenReturn("secret");
+
+        UtilisateurDto user = new UtilisateurDto();
+        user.setEmail("test@test.com");
+        user.setNom("test");
+        user.setPassword("test");
+        user.setPrenom("test");
+        user.setPseudo("test");
+        user.setSexe("autre");
 
         userService.saveUser(user);
 
