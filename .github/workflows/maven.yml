@@ -27,5 +27,5 @@ jobs:
 
     - name: Upload coverage to Codacy
       env:
-        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_TOKEN }}
       run: java -jar tools/codacy-coverage-reporter-assembly.jar report -l Java -r target/site/jacoco/jacoco.xml
