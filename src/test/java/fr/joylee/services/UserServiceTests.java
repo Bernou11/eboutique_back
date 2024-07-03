@@ -53,7 +53,6 @@ public class UserServiceTests {
         user.setPrenom("test");
         user.setPseudo("test");
         user.setSexe("M");
-        user.setRole(RoleEnum.client);
 
         userService.saveUser(user);
 
@@ -79,13 +78,13 @@ public class UserServiceTests {
         when(userRepository.save(Mockito.any())).thenReturn(utilisateurEntity);
 
         UtilisateurDto user = new UtilisateurDto();
+        user.setSexe("M");
         user.setEmail("test@test.com");
         user.setNom("test");
         user.setPassword("test");
         user.setPrenom("test");
         user.setPseudo("testUpdate");
         user.setId(1);
-        user.setRole(RoleEnum.createur);
 
         userService.saveUser(user);
 
@@ -126,7 +125,6 @@ public class UserServiceTests {
         user.setPassword(utilisateurEntity2.getPassword());
         user.setPrenom(utilisateurEntity2.getPrenom());
         user.setPseudo(utilisateurEntity2.getPseudo());
-        user.setRole(utilisateurEntity2.getRole());
 
         userService.updateUser(user);
         verify(passwordEncoder).encode(isA(CharSequence.class));
