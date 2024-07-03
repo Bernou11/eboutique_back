@@ -119,10 +119,70 @@ public class ArticleServiceTests {
     }
 
     @Test
-    void testSaveNewArticle() {
+    void testSaveNewArticleEte() {
         ArticleDto article = new ArticleDto();
         article.setAge("adulte");
         article.setCollection("ete");
+        article.setCreateur("Createur");
+        article.setDescription("Description");
+        article.setGenre("H");
+        article.setImage("Image");
+        article.setPlacement("haut");
+        article.setPrixHT(10.0d);
+        article.setPrixTTC(10.0d);
+        article.setSousType("Sous-Type");
+        article.setType("vetement");
+
+        articleService.saveNewArticle(article);
+
+        verify(articleRepository).save(isA(ArticleEntity.class));
+    }
+
+    @Test
+    void testSaveNewArticlePrintemps() {
+        ArticleDto article = new ArticleDto();
+        article.setAge("adulte");
+        article.setCollection("printemps");
+        article.setCreateur("Createur");
+        article.setDescription("Description");
+        article.setGenre("H");
+        article.setImage("Image");
+        article.setPlacement("haut");
+        article.setPrixHT(10.0d);
+        article.setPrixTTC(10.0d);
+        article.setSousType("Sous-Type");
+        article.setType("vetement");
+
+        articleService.saveNewArticle(article);
+
+        verify(articleRepository).save(isA(ArticleEntity.class));
+    }
+
+    @Test
+    void testSaveNewArticleAutomne() {
+        ArticleDto article = new ArticleDto();
+        article.setAge("adulte");
+        article.setCollection("automne");
+        article.setCreateur("Createur");
+        article.setDescription("Description");
+        article.setGenre("H");
+        article.setImage("Image");
+        article.setPlacement("haut");
+        article.setPrixHT(10.0d);
+        article.setPrixTTC(10.0d);
+        article.setSousType("Sous-Type");
+        article.setType("vetement");
+
+        articleService.saveNewArticle(article);
+
+        verify(articleRepository).save(isA(ArticleEntity.class));
+    }
+
+    @Test
+    void testSaveNewArticleHiver() {
+        ArticleDto article = new ArticleDto();
+        article.setAge("adulte");
+        article.setCollection("hiver");
         article.setCreateur("Createur");
         article.setDescription("Description");
         article.setGenre("H");
