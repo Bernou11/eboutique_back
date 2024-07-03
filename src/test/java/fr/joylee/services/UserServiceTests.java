@@ -100,7 +100,7 @@ public class UserServiceTests {
         utilisateurEntity.setCreationDate(LocalDate.now().atStartOfDay());
         utilisateurEntity.setEmail("test@test.com");
         utilisateurEntity.setNom("Test");
-        utilisateurEntity.setPassword(passwordEncoder.encode("test"));
+        utilisateurEntity.setPassword("test");
         utilisateurEntity.setPrenom("Test");
         utilisateurEntity.setRole(RoleEnum.client);
         utilisateurEntity.setStatus((byte) '0');
